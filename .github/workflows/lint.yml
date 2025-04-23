@@ -27,4 +27,4 @@ jobs:
 
       - name: Run Pytest (ignore if no tests)
         run: |
-          pytest tests/ || echo "No tests found. Skipping.
+          pytest tests/ || echo "No tests found. Skipping."
