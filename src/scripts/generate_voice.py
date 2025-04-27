@@ -1,29 +1,52 @@
-import openai
 import os
+import pyttsx3
 from dotenv import load_dotenv
+import openai
 
+# Carrega as variáveis de ambiente
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-def synthesize_voice(text_path:str, output_path="datahood_voice.mp3", voice="nova"):
-    # Ler o conteúdo do texto
-    with open(text_path, "r", encoding="utf-8") as file:
-        content = file.read()
 
-    print("[🔊] Gerando áudio com voz:", voice)
+def text_to_speech(text):
+    """
+    Converte texto em fala e salva em um arquivo de áudio.
+    :param text: Texto a ser convertido em fala.
+    """
+    engine = pyttsx3.init()
+    engine.save_to_file(text, 'output_audio.mp3')
+    engine.runAndWait()
 
-    response = openai.audio.speech.create(
-        model="tts-1-hd",
-        voice=voice,  # opções: "nova", "alloy", "shimmer", etc.
-        input=content
-    )
 
-    # Salvar como mp3
-    with open(output_path, "wb") as f:
-        f.write(response.content)
+def generate_script(topic):
+    """
+    Gera um script baseado no tópico fornecido.
+    Esta função deve ser implementada ou importada de outro módulo.
+    :param topic: Tópico para o qual o script será gerado.
+    :return: Script gerado como string.
+    """
+    # Placeholder para a função de geração de script
+    return f"Generated script for topic: {topic}"
 
-    print(f"[✅] Voz salva em: {output_path}")
 
-# Exemplo de uso direto
+def generate_script_and_speech(topic):
+    """
+    Gera um script baseado no tópico e converte o script em fala.
+    :param topic: Tópico para o qual o script será gerado.
+    """
+    script = generate_script(topic)
+    print("Generated Script:")
+    print(script)
+    text_to_speech(script)
+
+
+def main():
+    """
+    Função principal que solicita um tópico ao usuário e inicia o processo.
+    """
+    topic = input("Enter a topic: ")
+    generate_script_and_speech(topic)
+
+
 if __name__ == "__main__":
-    synthesize_voice("scripts/episode_001.txt")
+    main()

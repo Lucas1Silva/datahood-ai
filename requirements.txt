@@ -3,3 +3,4 @@ pytest
 bandit
 python-dotenv
 openai
+pyttsx3
